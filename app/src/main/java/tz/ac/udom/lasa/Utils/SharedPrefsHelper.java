@@ -10,7 +10,7 @@ public class SharedPrefsHelper {
     private static SharedPreferences sharedPrefs;
     private static final String TAG = SharedPreferences.class.getName();
 
-    private static String getSyncedStudentProfile(Context context){
+    public static String getSyncedStudentProfile(Context context){
 
         if(sharedPrefs == null)
             sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name),
@@ -21,4 +21,23 @@ public class SharedPrefsHelper {
 
         return jsonStudent;
     }
+
+    public static void syncStudentProfile(Context context, String jsonStudent){
+
+        if(sharedPrefs == null)
+            sharedPrefs = context.getSharedPreferences(context.getString(R.string.app_name),
+                    Context.MODE_PRIVATE);
+
+        if(jsonStudent != null){
+            SharedPreferences.Editor editor = sharedPrefs.edit();
+            editor.putString("profile", jsonStudent);
+            editor.apply();
+        }else{
+            sharedPrefs.edit().remove("profile").apply();
+        }
+
+
+
+    }
+
 }
